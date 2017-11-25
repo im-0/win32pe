@@ -22,44 +22,21 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef WIN32PE_FILE_H
-#define WIN32PE_FILE_H
-
-#include <win32pe/win32pe.h>
+#ifndef WIN32PE_FILE_P_H
+#define WIN32PE_FILE_P_H
 
 namespace win32pe
 {
 
-class WIN32PE_EXPORT FilePrivate;
-
-/**
- * @brief PE file
- */
-class WIN32PE_EXPORT File
+class FilePrivate
 {
 public:
 
-    File();
-    virtual ~File();
+    FilePrivate();
 
-    /**
-     * @brief Load a PE file from disk
-     * @param filename path to file
-     * @return true if the file was loaded
-     */
-    bool load(const char *filename);
-
-    /**
-     * @brief Retrieve a description of the last error
-     * @return string or nullptr if no error has occurred
-     */
-    const char *errorString() const;
-
-private:
-
-    FilePrivate *const d;
+    const char *mErrorString;
 };
 
 }
 
-#endif // WIN32PE_FILE_H
+#endif // WIN32PE_FILE_P_H

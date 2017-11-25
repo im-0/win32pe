@@ -22,4 +22,43 @@
  * IN THE SOFTWARE.
  */
 
+#include <fstream>
+
 #include <win32pe/file.h>
+
+#include "file_p.h"
+
+using namespace win32pe;
+
+FilePrivate::FilePrivate()
+    : mErrorString(nullptr)
+{
+    //...
+}
+
+File::File()
+    : d(new FilePrivate)
+{
+    //...
+}
+
+File::~File()
+{
+    delete d;
+}
+
+bool File::load(const char *filename)
+{
+    std::ifstream ifstream(filename, std::ios::binary);
+    if (ifstream.bad()) {
+        d->mErrorString = "unable to open file";
+        return false;
+    }
+
+    return true;
+}
+
+const char *File::errorString() const
+{
+    return d->mErrorString;
+}
