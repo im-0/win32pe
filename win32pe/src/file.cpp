@@ -29,30 +29,13 @@
 #include <win32pe/file.h>
 
 #include "file_p.h"
+#include "fileheader_p.h"
 
 using namespace win32pe;
 
 const int DOSHeaderSize = 0x40;
 const int PEOffsetOffset = 0x3c;
-
-FilePrivate::FilePrivate()
-{
-}
-
-FilePrivate::FilePrivate(const FilePrivate &other)
-{
-    *this = other;
-}
-
-FilePrivate::~FilePrivate()
-{
-}
-
-FilePrivate &FilePrivate::operator=(const FilePrivate &other)
-{
-    mErrorString = other.mErrorString;
-    mDOSHeader = other.mDOSHeader;
-}
+const int PESignature = 0x4550;
 
 bool FilePrivate::readDOSHeader(std::istream &istream)
 {
@@ -87,6 +70,35 @@ bool FilePrivate::readDOSHeader(std::istream &istream)
     return true;
 }
 
+bool FilePrivate::readPEHeaders(std::istream &istream)
+{
+    // The PE headers consist of a signature, the file header, and the optional
+    // header; the optional header has different sizes depending on the machine
+    // type
+
+    // Read the signature
+    uint32_t peSignature;
+    if (!istream.read(reinterpret_cast<char*>(&peSignature), sizeof(peSignature))) {
+        mErrorString = "unable to read PE signature";
+        return false;
+    }
+
+    // Verify the signature
+    boost::endian::little_to_native_inplace(peSignature);
+    if (peSignature != PESignature) {
+        mErrorString = "file is missing PE signature";
+        return false;
+    }
+
+    // Read the file header
+    if (!mFileHeader.d->read(istream)) {
+        mErrorString = "unable to read file header";
+        return false;
+    }
+
+    return true;
+}
+
 File::File()
     : d(new FilePrivate)
 {
@@ -109,7 +121,8 @@ File &File::operator=(const File &other)
 
 bool File::load(std::istream &istream)
 {
-    return d->readDOSHeader(istream);
+    return d->readDOSHeader(istream) &&
+           d->readPEHeaders(istream);
 }
 
 bool File::load(const std::string &filename)
@@ -121,6 +134,11 @@ bool File::load(const std::string &filename)
     }
 
     return load(ifstream);
+}
+
+const FileHeader &File::fileHeader() const
+{
+    return d->mFileHeader;
 }
 
 std::string File::errorString() const

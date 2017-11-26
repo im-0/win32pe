@@ -29,6 +29,7 @@
 #include <string>
 
 #include <win32pe/file.h>
+#include <win32pe/fileheader.h>
 
 // Extremely simple PE file
 const unsigned char Sample[] = {
@@ -71,4 +72,5 @@ BOOST_AUTO_TEST_CASE(test_load)
         std::string(reinterpret_cast<const char*>(Sample), sizeof(Sample))
     );
     BOOST_TEST(file.load(stringstream));
+    BOOST_TEST(file.fileHeader().machine() == win32pe::FileHeader::i386);
 }

@@ -28,6 +28,8 @@
 #include <istream>
 #include <string>
 
+#include <win32pe/fileheader.h>
+
 namespace win32pe
 {
 
@@ -35,17 +37,13 @@ class FilePrivate
 {
 public:
 
-    FilePrivate();
-    FilePrivate(const FilePrivate &other);
-    ~FilePrivate();
-
-    FilePrivate &operator=(const FilePrivate &other);
-
     bool readDOSHeader(std::istream &istream);
+    bool readPEHeaders(std::istream &istream);
 
     std::string mErrorString;
 
     std::string mDOSHeader;
+    FileHeader mFileHeader;
 };
 
 }

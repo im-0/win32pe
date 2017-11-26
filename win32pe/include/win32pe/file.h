@@ -33,6 +33,8 @@
 namespace win32pe
 {
 
+class FileHeader;
+
 class WIN32PE_EXPORT FilePrivate;
 
 /**
@@ -61,6 +63,12 @@ public:
      * @return true if the file was loaded
      */
     bool load(const std::string &filename);
+
+    /**
+     * @brief Access the PE file's file header
+     * @return reference to the file header
+     */
+    const FileHeader &fileHeader() const;
 
     /**
      * @brief Retrieve a description of the last error
