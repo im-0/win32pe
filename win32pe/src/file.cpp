@@ -54,7 +54,7 @@ FilePrivate &FilePrivate::operator=(const FilePrivate &other)
     mDOSHeader = other.mDOSHeader;
 }
 
-bool FilePrivate::readDOSHeader(std::ifstream &ifstream)
+bool FilePrivate::readDOSHeader(std::istream &istream)
 {
     // The DOS header is 64 bytes and contains the signature and offset to the
     // PE headers; keep all of the data in the DOS header up to the offset so
@@ -62,7 +62,7 @@ bool FilePrivate::readDOSHeader(std::ifstream &ifstream)
 
     // Read the header
     mDOSHeader.resize(DOSHeaderSize);
-    if (!ifstream.read(&mDOSHeader[0], DOSHeaderSize)) {
+    if (!istream.read(&mDOSHeader[0], DOSHeaderSize)) {
         mErrorString = "unable to read DOS header";
         return false;
     }
@@ -79,7 +79,7 @@ bool FilePrivate::readDOSHeader(std::ifstream &ifstream)
 
     // Read the rest of the data up to the PE headers
     mDOSHeader.resize(peOffset);
-    if (!ifstream.read(&mDOSHeader[DOSHeaderSize], peOffset - DOSHeaderSize)) {
+    if (!istream.read(&mDOSHeader[DOSHeaderSize], peOffset - DOSHeaderSize)) {
         mErrorString = "unable to read to PE headers";
         return false;
     }
@@ -107,6 +107,11 @@ File &File::operator=(const File &other)
     *d = *other.d;
 }
 
+bool File::load(std::istream &istream)
+{
+    return d->readDOSHeader(istream);
+}
+
 bool File::load(const std::string &filename)
 {
     std::ifstream ifstream(filename, std::ios::binary);
@@ -115,7 +120,7 @@ bool File::load(const std::string &filename)
         return false;
     }
 
-    return d->readDOSHeader(ifstream);
+    return load(ifstream);
 }
 
 std::string File::errorString() const

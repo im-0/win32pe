@@ -25,6 +25,7 @@
 #ifndef WIN32PE_FILE_H
 #define WIN32PE_FILE_H
 
+#include <istream>
 #include <string>
 
 #include <win32pe/win32pe.h>
@@ -46,6 +47,13 @@ public:
     virtual ~File();
 
     File &operator=(const File &other);
+
+    /**
+     * @brief Load a PE file from a stream
+     * @param stream reference to an input stream
+     * @return true if the file was loaded
+     */
+    bool load(std::istream &istream);
 
     /**
      * @brief Load a PE file from disk

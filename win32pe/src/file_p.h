@@ -25,7 +25,7 @@
 #ifndef WIN32PE_FILE_P_H
 #define WIN32PE_FILE_P_H
 
-#include <fstream>
+#include <istream>
 #include <string>
 
 namespace win32pe
@@ -41,7 +41,7 @@ public:
 
     FilePrivate &operator=(const FilePrivate &other);
 
-    bool readDOSHeader(std::ifstream &ifstream);
+    bool readDOSHeader(std::istream &istream);
 
     std::string mErrorString;
 
