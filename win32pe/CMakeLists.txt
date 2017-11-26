@@ -6,7 +6,7 @@ set(SRC
     src/file.cpp
 )
 
-add_library(win32pe SHARED ${HEADERS} ${SRC})
+add_library(win32pe SHARED ${SRC})
 
 set_target_properties(win32pe PROPERTIES
     CXX_STANDARD          11
