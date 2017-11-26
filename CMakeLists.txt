@@ -11,3 +11,9 @@ set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_
 find_package(Boost 1.58 REQUIRED)
 
 add_subdirectory(win32pe)
+
+option(BUILD_TESTS "Build test suite" OFF)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
