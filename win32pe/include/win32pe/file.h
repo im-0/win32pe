@@ -25,6 +25,8 @@
 #ifndef WIN32PE_FILE_H
 #define WIN32PE_FILE_H
 
+#include <string>
+
 #include <win32pe/win32pe.h>
 
 namespace win32pe
@@ -40,20 +42,23 @@ class WIN32PE_EXPORT File
 public:
 
     File();
+    File(const File &other);
     virtual ~File();
+
+    File &operator=(const File &other);
 
     /**
      * @brief Load a PE file from disk
      * @param filename path to file
      * @return true if the file was loaded
      */
-    bool load(const char *filename);
+    bool load(const std::string &filename);
 
     /**
      * @brief Retrieve a description of the last error
-     * @return string or nullptr if no error has occurred
+     * @return description or empty string if no error has occurred
      */
-    const char *errorString() const;
+    std::string errorString() const;
 
 private:
 

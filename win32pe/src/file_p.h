@@ -25,6 +25,9 @@
 #ifndef WIN32PE_FILE_P_H
 #define WIN32PE_FILE_P_H
 
+#include <fstream>
+#include <string>
+
 namespace win32pe
 {
 
@@ -33,8 +36,16 @@ class FilePrivate
 public:
 
     FilePrivate();
+    FilePrivate(const FilePrivate &other);
+    ~FilePrivate();
 
-    const char *mErrorString;
+    FilePrivate &operator=(const FilePrivate &other);
+
+    bool readDOSHeader(std::ifstream &ifstream);
+
+    std::string mErrorString;
+
+    std::string mDOSHeader;
 };
 
 }
