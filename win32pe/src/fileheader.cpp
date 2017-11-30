@@ -31,7 +31,7 @@
 using namespace win32pe;
 
 FileHeaderPrivate::FileHeaderPrivate()
-    : mMachine(FileHeader::Unknown),
+    : mMachine(0),
       mNumberOfSections(0),
       mTimeDateStamp(0),
       mPointerToSymbolTable(0),

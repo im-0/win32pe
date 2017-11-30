@@ -73,4 +73,6 @@ BOOST_AUTO_TEST_CASE(test_load)
     );
     BOOST_TEST(file.load(stringstream));
     BOOST_TEST(file.fileHeader().machine() == win32pe::FileHeader::i386);
+    BOOST_TEST(file.fileHeader().timeDateStamp() == 1162198621);
+    BOOST_TEST(file.fileHeader().characteristics() == 0);
 }

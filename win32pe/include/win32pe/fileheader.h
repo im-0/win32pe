@@ -59,7 +59,7 @@ public:
         System               = 0x1000,
         DLL                  = 0x2000,
         UPSystemOnly         = 0x4000
-    }
+    };
 
     FileHeader();
     FileHeader(const FileHeader &other);
