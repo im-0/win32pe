@@ -82,3 +82,13 @@ uint16_t FileHeader::machine() const
 {
     return d->mMachine;
 }
+
+uint32_t FileHeader::timeDateStamp() const
+{
+    return d->mTimeDateStamp;
+}
+
+uint16_t FileHeader::characteristics() const
+{
+    return d->mCharacteristics;
+}

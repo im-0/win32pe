@@ -42,10 +42,24 @@ class WIN32PE_EXPORT FileHeader
 public:
 
     enum {
-        Unknown = 0,
-        i386    = 0x014c,
-        amd64   = 0x8664
+        i386  = 0x014c,
+        amd64 = 0x8664
     };
+
+    enum {
+        RelocsStripped       = 0x0001,
+        ExecutableImage      = 0x0002,
+        LineNumsStripped     = 0x0004,
+        LocalSymsStripped    = 0x0008,
+        LargeAddressAware    = 0x0020,
+        ThirtyTwoBitMachine  = 0x0100,
+        DebugStripped        = 0x0200,
+        RemovableRunFromSwap = 0x0400,
+        NetRunFromSwap       = 0x0800,
+        System               = 0x1000,
+        DLL                  = 0x2000,
+        UPSystemOnly         = 0x4000
+    }
 
     FileHeader();
     FileHeader(const FileHeader &other);
@@ -54,6 +68,8 @@ public:
     FileHeader &operator=(const FileHeader &other);
 
     uint16_t machine() const;
+    uint32_t timeDateStamp() const;
+    uint16_t characteristics() const;
 
 private:
 
