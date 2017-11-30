@@ -34,6 +34,7 @@ namespace win32pe
 {
 
 class FileHeader;
+class OptionalHeader;
 
 class WIN32PE_EXPORT FilePrivate;
 
@@ -69,6 +70,12 @@ public:
      * @return reference to the file header
      */
     const FileHeader &fileHeader() const;
+
+    /**
+     * @brief Access the PE file's optional header
+     * @return reference to the optional header
+     */
+    const OptionalHeader &optionalHeader() const;
 
     /**
      * @brief Retrieve a description of the last error

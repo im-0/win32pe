@@ -141,6 +141,11 @@ const FileHeader &File::fileHeader() const
     return d->mFileHeader;
 }
 
+const OptionalHeader &File::optionalHeader() const
+{
+    return d->mOptionalHeader;
+}
+
 std::string File::errorString() const
 {
     return d->mErrorString;

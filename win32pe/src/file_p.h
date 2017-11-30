@@ -29,6 +29,7 @@
 #include <string>
 
 #include <win32pe/fileheader.h>
+#include <win32pe/optionalheader.h>
 
 namespace win32pe
 {
@@ -44,6 +45,7 @@ public:
 
     std::string mDOSHeader;
     FileHeader mFileHeader;
+    OptionalHeader mOptionalHeader;
 };
 
 }
