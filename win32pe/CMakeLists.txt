@@ -1,10 +1,13 @@
 set(HEADERS
     include/win32pe/file.h
+    include/win32pe/fileheader.h
+    include/win32pe/optionalheader.h
 )
 
 set(SRC
     src/file.cpp
     src/fileheader.cpp
+    src/optionalheader.cpp
 )
 
 add_library(win32pe SHARED ${SRC})
