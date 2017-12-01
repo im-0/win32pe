@@ -47,13 +47,13 @@ bool FileHeaderPrivate::read(std::istream &istream)
         return false;
     }
 
-    boost::endian::little_to_native(mMachine);
-    boost::endian::little_to_native(mNumberOfSections);
-    boost::endian::little_to_native(mTimeDateStamp);
-    boost::endian::little_to_native(mPointerToSymbolTable);
-    boost::endian::little_to_native(mNumberOfSymbols);
-    boost::endian::little_to_native(mSizeOfOptionalHeader);
-    boost::endian::little_to_native(mCharacteristics);
+    boost::endian::little_to_native_inplace(mMachine);
+    boost::endian::little_to_native_inplace(mNumberOfSections);
+    boost::endian::little_to_native_inplace(mTimeDateStamp);
+    boost::endian::little_to_native_inplace(mPointerToSymbolTable);
+    boost::endian::little_to_native_inplace(mNumberOfSymbols);
+    boost::endian::little_to_native_inplace(mSizeOfOptionalHeader);
+    boost::endian::little_to_native_inplace(mCharacteristics);
 
     return true;
 }
