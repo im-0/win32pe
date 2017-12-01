@@ -25,6 +25,11 @@
 #ifndef WIN32PE_OPTIONALHEADER_P_H
 #define WIN32PE_OPTIONALHEADER_P_H
 
+#include <cstdint>
+#include <istream>
+
+#include <win32pe/optionalheader.h>
+
 namespace win32pe
 {
 
@@ -34,7 +39,53 @@ public:
 
     OptionalHeaderPrivate();
 
-    //...
+    bool read(std::istream &istream);
+
+    // Both 32 and 64-bit executables share the first few fields - the
+    // exception being ImageBase, which has different sizes and BaseOfData
+    // which does not exist in the 64-bit struct - because BaseOfData occupies
+    // the same amount of space as the additional ImageBase size, a 32-bit
+    // integer serves a dual-purpose - it provides storage for either
+    // BaseOfData or the low bytes of ImageBase
+
+    uint16_t mMagic;
+    uint8_t  mMajorLinkerVersion;
+    uint8_t  mMinorLinkerVersion;
+    uint32_t mSizeOfCode;
+    uint32_t mSizeOfInitializedData;
+    uint32_t mSizeOfUninitializedData;
+    uint32_t mAddressOfEntryPoint;
+    uint32_t mBaseOfCode;
+    uint32_t mImageBaseLoBaseOfData;
+    uint32_t mImageBaseHi;
+    uint32_t mSectionAlignment;
+    uint32_t mFileAlignment;
+    uint16_t mMajorOperatingSystemVersion;
+    uint16_t mMinorOperatingSystemVersion;
+    uint16_t mMajorImageVersion;
+    uint16_t mMinorImageVersion;
+    uint16_t mMajorSubsystemVersion;
+    uint16_t mMinorSubsystemVersion;
+    uint32_t mWin32VersionValue;
+    uint32_t mSizeOfImage;
+    uint32_t mSizeOfHeaders;
+    uint32_t mCheckSum;
+    uint16_t mSubsystem;
+    uint16_t mDllCharacteristics;
+
+    // These fields are identical in purpose but differ in size - therefore
+    // they are 64-bit fields and are truncated as necessary for 32-bit
+    // executables
+
+    uint64_t mSizeOfStackReserve;
+    uint64_t mSizeOfStackCommit;
+    uint64_t mSizeOfHeapReserve;
+    uint64_t mSizeOfHeapCommit;
+
+    // There are two more identical fields
+
+    uint32_t mLoaderFlags;
+    uint32_t mNumberOfRvaAndSizes;
 };
 
 }

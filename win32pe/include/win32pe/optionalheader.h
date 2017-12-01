@@ -25,6 +25,8 @@
 #ifndef WIN32PE_OPTIONALHEADER_H
 #define WIN32PE_OPTIONALHEADER_H
 
+#include <cstdint>
+
 #include <win32pe/win32pe.h>
 
 namespace win32pe
@@ -39,11 +41,18 @@ class WIN32PE_EXPORT OptionalHeader
 {
 public:
 
+    enum {
+        Win32 = 0x010b,
+        Win64 = 0x020b
+    };
+
     OptionalHeader();
     OptionalHeader(const OptionalHeader &other);
     virtual ~OptionalHeader();
 
     OptionalHeader &operator=(const OptionalHeader &other);
+
+    uint16_t width() const;
 
 private:
 
