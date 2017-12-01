@@ -25,6 +25,8 @@
 #ifndef WIN32PE_SECTIONHEADER_H
 #define WIN32PE_SECTIONHEADER_H
 
+#include <string>
+
 #include <win32pe/win32pe.h>
 
 namespace win32pe
@@ -44,6 +46,8 @@ public:
     virtual ~SectionHeader();
 
     SectionHeader &operator=(const SectionHeader &other);
+
+    std::string name() const;
 
 private:
 

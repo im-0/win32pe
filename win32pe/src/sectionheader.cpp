@@ -22,6 +22,8 @@
  * IN THE SOFTWARE.
  */
 
+#include <boost/endian/conversion.hpp>
+
 #include <win32pe/sectionheader.h>
 
 #include "sectionheader_p.h"
@@ -29,7 +31,36 @@
 using namespace win32pe;
 
 SectionHeaderPrivate::SectionHeaderPrivate()
+    : mName{0},
+      mPhysicalAddressVirtualSize(0),
+      mVirtualAddress(0),
+      mSizeOfRawData(0),
+      mPointerToRawData(0),
+      mPointerToRelocations(0),
+      mPointerToLinenumbers(0),
+      mNumberOfRelocations(0),
+      mNumberOfLinenumbers(0),
+      mCharacteristics(0)
 {
+}
+
+bool SectionHeaderPrivate::read(std::istream &istream)
+{
+    if (!istream.read(reinterpret_cast<char*>(this), sizeof(this))) {
+        return false;
+    }
+
+    boost::endian::little_to_native_inplace(mPhysicalAddressVirtualSize);
+    boost::endian::little_to_native_inplace(mVirtualAddress);
+    boost::endian::little_to_native_inplace(mSizeOfRawData);
+    boost::endian::little_to_native_inplace(mPointerToRawData);
+    boost::endian::little_to_native_inplace(mPointerToRelocations);
+    boost::endian::little_to_native_inplace(mPointerToLinenumbers);
+    boost::endian::little_to_native_inplace(mNumberOfRelocations);
+    boost::endian::little_to_native_inplace(mNumberOfLinenumbers);
+    boost::endian::little_to_native_inplace(mCharacteristics);
+
+    return true;
 }
 
 SectionHeader::SectionHeader()
@@ -50,4 +81,9 @@ SectionHeader::~SectionHeader()
 SectionHeader &SectionHeader::operator=(const SectionHeader &other)
 {
     *d = *other.d;
+}
+
+std::string SectionHeader::name() const
+{
+    return std::string(d->mName, sizeof(d->mName));
 }
