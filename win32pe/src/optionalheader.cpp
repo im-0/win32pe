@@ -60,7 +60,8 @@ OptionalHeaderPrivate::OptionalHeaderPrivate()
       mSizeOfHeapReserve(0),
       mSizeOfHeapCommit(0),
       mLoaderFlags(0),
-      mNumberOfRvaAndSizes(0)
+      mNumberOfRvaAndSizes(0),
+      mDataDirectory{0}
 {
 }
 
@@ -95,6 +96,41 @@ bool OptionalHeaderPrivate::read(std::istream &istream)
     boost::endian::little_to_native_inplace(mCheckSum);
     boost::endian::little_to_native_inplace(mSubsystem);
     boost::endian::little_to_native_inplace(mDllCharacteristics);
+
+    auto size = mMagic == OptionalHeader::Win32 ? sizeof(uint32_t) : sizeof(uint64_t);
+    if (!istream.read(reinterpret_cast<char*>(&mSizeOfStackReserve), size) ||
+            !istream.read(reinterpret_cast<char*>(&mSizeOfStackCommit), size) ||
+            !istream.read(reinterpret_cast<char*>(&mSizeOfHeapReserve), size) ||
+            !istream.read(reinterpret_cast<char*>(&mSizeOfHeapCommit), size)) {
+        return false;
+    }
+
+    boost::endian::little_to_native_inplace(mSizeOfStackReserve);
+    boost::endian::little_to_native_inplace(mSizeOfStackCommit);
+    boost::endian::little_to_native_inplace(mSizeOfHeapReserve);
+    boost::endian::little_to_native_inplace(mSizeOfHeapCommit);
+
+    if (!istream.read(
+            reinterpret_cast<char*>(&mLoaderFlags),
+            reinterpret_cast<char*>(&mDataDirectory) - reinterpret_cast<char*>(&mLoaderFlags)
+        )) {
+        return false;
+    }
+
+    boost::endian::little_to_native_inplace(mLoaderFlags);
+    boost::endian::little_to_native_inplace(mNumberOfRvaAndSizes);
+
+    if (!istream.read(
+            reinterpret_cast<char*>(mDataDirectory),
+            sizeof(mDataDirectory) * sizeof(OptionalHeader::ImageDataDirectory)
+        )) {
+        return false;
+    }
+
+    for (int i = 0; i < DATA_DIRECTORY_COUNT; ++i) {
+        boost::endian::little_to_native_inplace(mDataDirectory[i].virtualAddress);
+        boost::endian::little_to_native_inplace(mDataDirectory[i].size);
+    }
 
     return true;
 }

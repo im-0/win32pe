@@ -30,6 +30,8 @@
 
 #include <win32pe/optionalheader.h>
 
+#define DATA_DIRECTORY_COUNT 16
+
 namespace win32pe
 {
 
@@ -42,10 +44,10 @@ public:
     bool read(std::istream &istream);
 
     // Both 32 and 64-bit executables share the first few fields - the
-    // exception being ImageBase, which has different sizes and BaseOfData
+    // exception being ImageBase, which has a different size and BaseOfData
     // which does not exist in the 64-bit struct - because BaseOfData occupies
-    // the same amount of space as the additional ImageBase size, a 32-bit
-    // integer serves a dual-purpose - it provides storage for either
+    // the same amount of space as the extra bytes for ImageBase, a 32-bit
+    // integer can serve a dual-purpose - it provides storage for either
     // BaseOfData or the low bytes of ImageBase
 
     uint16_t mMagic;
@@ -82,10 +84,12 @@ public:
     uint64_t mSizeOfHeapReserve;
     uint64_t mSizeOfHeapCommit;
 
-    // There are two more identical fields
+    // These fields are identical in 32 and 64-bit executables
 
     uint32_t mLoaderFlags;
     uint32_t mNumberOfRvaAndSizes;
+
+    OptionalHeader::ImageDataDirectory mDataDirectory[DATA_DIRECTORY_COUNT];
 };
 
 }

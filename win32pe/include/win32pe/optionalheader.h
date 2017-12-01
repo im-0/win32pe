@@ -63,6 +63,12 @@ public:
         TerminalServerAware = 0x8000
     };
 
+    struct ImageDataDirectory
+    {
+        uint32_t virtualAddress;
+        uint32_t size;
+    };
+
     OptionalHeader();
     OptionalHeader(const OptionalHeader &other);
     virtual ~OptionalHeader();
