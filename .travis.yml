@@ -1,13 +1,13 @@
 dist: trusty
-sudo: false
+sudo: required
 language: cpp
 
 addons:
   apt:
     sources:
-    - debian-sid
+    - ppa:kzemek/boost
     packages:
-    - boost1.62
+    - boost1.58
 
 script:
   - cmake .
