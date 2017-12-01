@@ -124,7 +124,7 @@ bool OptionalHeaderPrivate::read(std::istream &istream)
         return false;
     }
 
-    for (int i = 0; i < DATA_DIRECTORY_COUNT; ++i) {
+    for (int i = 0; i < DATA_DIRECTORY_SIZE; ++i) {
         boost::endian::little_to_native_inplace(mDataDirectory[i].virtualAddress);
         boost::endian::little_to_native_inplace(mDataDirectory[i].size);
     }

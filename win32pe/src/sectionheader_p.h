@@ -28,6 +28,8 @@
 #include <cstdint>
 #include <istream>
 
+#define SECTION_NAME_SIZE 8
+
 namespace win32pe
 {
 
@@ -39,7 +41,7 @@ public:
 
     bool read(std::istream &istream);
 
-    char mName[8];
+    char mName[SECTION_NAME_SIZE];
 
     uint32_t mPhysicalAddressVirtualSize;
     uint32_t mVirtualAddress;

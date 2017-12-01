@@ -22,6 +22,8 @@
  * IN THE SOFTWARE.
  */
 
+#include <cstring>
+
 #include <boost/endian/conversion.hpp>
 
 #include <win32pe/sectionheader.h>
@@ -85,5 +87,11 @@ SectionHeader &SectionHeader::operator=(const SectionHeader &other)
 
 std::string SectionHeader::name() const
 {
-    return std::string(d->mName, sizeof(d->mName));
+    // If the final character is NULL, then strlen can be used to determine the
+    // length; otherwise, assume that the string comprises the entire array
+
+    return std::string(
+        d->mName,
+        d->mName[SECTION_NAME_SIZE - 1] ? SECTION_NAME_SIZE : strlen(d->mName)
+    );
 }

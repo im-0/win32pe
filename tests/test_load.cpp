@@ -31,6 +31,7 @@
 #include <win32pe/file.h>
 #include <win32pe/fileheader.h>
 #include <win32pe/optionalheader.h>
+#include <win32pe/sectionheader.h>
 
 // Extremely simple PE file
 const unsigned char Sample[] = {
@@ -73,6 +74,7 @@ BOOST_AUTO_TEST_CASE(test_load)
         std::string(reinterpret_cast<const char*>(Sample), sizeof(Sample))
     );
     BOOST_TEST(file.load(stringstream));
+
     BOOST_TEST(file.fileHeader().machine() == win32pe::FileHeader::i386);
     BOOST_TEST(file.fileHeader().timeDateStamp() == 1162198621);
     BOOST_TEST(file.fileHeader().characteristics() ==
@@ -80,9 +82,13 @@ BOOST_AUTO_TEST_CASE(test_load)
         win32pe::FileHeader::ExecutableImage |
         win32pe::FileHeader::ThirtyTwoBitMachine
     );
+
     BOOST_TEST(file.optionalHeader().magic() == win32pe::OptionalHeader::Win32);
     BOOST_TEST(file.optionalHeader().majorOperatingSystemVersion() == 4);
     BOOST_TEST(file.optionalHeader().minorOperatingSystemVersion() == 0);
     BOOST_TEST(file.optionalHeader().subsystem() == win32pe::OptionalHeader::GUI);
     BOOST_TEST(file.optionalHeader().dllCharacteristics() == win32pe::OptionalHeader::NoSEH);
+
+    BOOST_TEST(file.sectionHeaders().size() == 1);
+    BOOST_TEST(file.sectionHeaders().at(0).name() == ".text");
 }
