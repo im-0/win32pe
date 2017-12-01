@@ -138,3 +138,8 @@ uint16_t OptionalHeader::subsystem() const
 {
     return d->mSubsystem;
 }
+
+uint16_t OptionalHeader::dllCharacteristics() const
+{
+    return d->mDllCharacteristics;
+}

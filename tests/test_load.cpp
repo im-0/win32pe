@@ -84,4 +84,5 @@ BOOST_AUTO_TEST_CASE(test_load)
     BOOST_TEST(file.optionalHeader().majorOperatingSystemVersion() == 4);
     BOOST_TEST(file.optionalHeader().minorOperatingSystemVersion() == 0);
     BOOST_TEST(file.optionalHeader().subsystem() == win32pe::OptionalHeader::GUI);
+    BOOST_TEST(file.optionalHeader().dllCharacteristics() == win32pe::OptionalHeader::NoSEH);
 }

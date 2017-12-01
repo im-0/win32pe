@@ -52,6 +52,17 @@ public:
         CUI    = 3
     };
 
+    enum {
+        DynamicBase         = 0x0040,
+        ForceIntegrity      = 0x0080,
+        NXCompat            = 0x0100,
+        NoIsolation         = 0x0200,
+        NoSEH               = 0x0400,
+        NoBind              = 0x0800,
+        WDMDriver           = 0x2000,
+        TerminalServerAware = 0x8000
+    };
+
     OptionalHeader();
     OptionalHeader(const OptionalHeader &other);
     virtual ~OptionalHeader();
@@ -62,6 +73,7 @@ public:
     uint16_t majorOperatingSystemVersion() const;
     uint16_t minorOperatingSystemVersion() const;
     uint16_t subsystem() const;
+    uint16_t dllCharacteristics() const;
 
 private:
 
