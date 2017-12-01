@@ -123,3 +123,18 @@ uint16_t OptionalHeader::magic() const
 {
     return d->mMagic;
 }
+
+uint16_t OptionalHeader::majorOperatingSystemVersion() const
+{
+    return d->mMajorOperatingSystemVersion;
+}
+
+uint16_t OptionalHeader::minorOperatingSystemVersion() const
+{
+    return d->mMinorOperatingSystemVersion;
+}
+
+uint16_t OptionalHeader::subsystem() const
+{
+    return d->mSubsystem;
+}

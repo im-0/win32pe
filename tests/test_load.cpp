@@ -81,4 +81,7 @@ BOOST_AUTO_TEST_CASE(test_load)
         win32pe::FileHeader::ThirtyTwoBitMachine
     );
     BOOST_TEST(file.optionalHeader().magic() == win32pe::OptionalHeader::Win32);
+    BOOST_TEST(file.optionalHeader().majorOperatingSystemVersion() == 4);
+    BOOST_TEST(file.optionalHeader().minorOperatingSystemVersion() == 0);
+    BOOST_TEST(file.optionalHeader().subsystem() == win32pe::OptionalHeader::GUI);
 }

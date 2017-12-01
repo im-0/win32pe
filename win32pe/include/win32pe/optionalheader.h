@@ -46,6 +46,12 @@ public:
         Win64 = 0x020b
     };
 
+    enum {
+        Native = 1,
+        GUI    = 2,
+        CUI    = 3
+    };
+
     OptionalHeader();
     OptionalHeader(const OptionalHeader &other);
     virtual ~OptionalHeader();
@@ -53,6 +59,9 @@ public:
     OptionalHeader &operator=(const OptionalHeader &other);
 
     uint16_t magic() const;
+    uint16_t majorOperatingSystemVersion() const;
+    uint16_t minorOperatingSystemVersion() const;
+    uint16_t subsystem() const;
 
 private:
 
