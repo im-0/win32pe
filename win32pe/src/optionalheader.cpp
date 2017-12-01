@@ -120,10 +120,7 @@ bool OptionalHeaderPrivate::read(std::istream &istream)
     boost::endian::little_to_native_inplace(mLoaderFlags);
     boost::endian::little_to_native_inplace(mNumberOfRvaAndSizes);
 
-    if (!istream.read(
-            reinterpret_cast<char*>(mDataDirectory),
-            sizeof(mDataDirectory) * sizeof(OptionalHeader::ImageDataDirectory)
-        )) {
+    if (!istream.read(reinterpret_cast<char*>(mDataDirectory), sizeof(mDataDirectory))) {
         return false;
     }
 
