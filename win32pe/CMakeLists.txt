@@ -4,6 +4,7 @@ set(SRC
     src/file.cpp
     src/fileheader.cpp
     src/optionalheader.cpp
+    src/sectionheader.cpp
 )
 
 add_library(win32pe SHARED ${SRC})
