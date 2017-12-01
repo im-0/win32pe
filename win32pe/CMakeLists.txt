@@ -7,7 +7,7 @@ set(SRC
     src/sectionheader.cpp
 )
 
-add_library(win32pe SHARED ${SRC})
+add_library(win32pe SHARED ${HEADERS} ${SRC})
 
 set_target_properties(win32pe PROPERTIES
     CXX_STANDARD          11
