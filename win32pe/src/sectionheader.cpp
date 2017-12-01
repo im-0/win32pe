@@ -83,6 +83,7 @@ SectionHeader::~SectionHeader()
 SectionHeader &SectionHeader::operator=(const SectionHeader &other)
 {
     *d = *other.d;
+    return *this;
 }
 
 std::string SectionHeader::name() const

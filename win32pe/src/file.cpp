@@ -139,6 +139,7 @@ File::~File()
 File &File::operator=(const File &other)
 {
     *d = *other.d;
+    return *this;
 }
 
 bool File::load(std::istream &istream)

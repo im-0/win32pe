@@ -76,6 +76,7 @@ FileHeader::~FileHeader()
 FileHeader &FileHeader::operator=(const FileHeader &other)
 {
     *d = *other.d;
+    return *this;
 }
 
 uint16_t FileHeader::machine() const
