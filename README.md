@@ -1,5 +1,7 @@
 ## win32pe
 
+[![Build Status](https://travis-ci.org/nathan-osman/win32pe.svg?branch=master)](https://travis-ci.org/nathan-osman/win32pe)
+
 This library simplifies the task of working with PE files.
 
 ### Example
