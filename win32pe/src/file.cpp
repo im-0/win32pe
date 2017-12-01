@@ -27,6 +27,7 @@
 #include <boost/endian/conversion.hpp>
 
 #include <win32pe/file.h>
+#include <win32pe/sectionheader.h>
 
 #include "file_p.h"
 #include "fileheader_p.h"
@@ -166,6 +167,11 @@ const FileHeader &File::fileHeader() const
 const OptionalHeader &File::optionalHeader() const
 {
     return d->mOptionalHeader;
+}
+
+const std::vector<SectionHeader> &File::sectionHeaders() const
+{
+    return d->mSectionHeaders;
 }
 
 std::string File::errorString() const

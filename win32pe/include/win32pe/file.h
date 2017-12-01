@@ -27,6 +27,7 @@
 
 #include <istream>
 #include <string>
+#include <vector>
 
 #include <win32pe/win32pe.h>
 
@@ -35,6 +36,7 @@ namespace win32pe
 
 class FileHeader;
 class OptionalHeader;
+class SectionHeader;
 
 class WIN32PE_EXPORT FilePrivate;
 
@@ -76,6 +78,12 @@ public:
      * @return reference to the optional header
      */
     const OptionalHeader &optionalHeader() const;
+
+    /**
+     * @brief Access the PE file's section headers
+     * @return reference to a vector containing the section headers
+     */
+    const std::vector<SectionHeader> &sectionHeaders() const;
 
     /**
      * @brief Retrieve a description of the last error

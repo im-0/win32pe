@@ -31,10 +31,11 @@
 
 #include <win32pe/fileheader.h>
 #include <win32pe/optionalheader.h>
-#include <win32pe/sectionheader.h>
 
 namespace win32pe
 {
+
+class SectionHeader;
 
 class FilePrivate
 {
