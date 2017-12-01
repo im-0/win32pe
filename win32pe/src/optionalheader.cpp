@@ -119,7 +119,7 @@ OptionalHeader &OptionalHeader::operator=(const OptionalHeader &other)
     *d = *other.d;
 }
 
-uint16_t OptionalHeader::width() const
+uint16_t OptionalHeader::magic() const
 {
     return d->mMagic;
 }

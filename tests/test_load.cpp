@@ -30,6 +30,7 @@
 
 #include <win32pe/file.h>
 #include <win32pe/fileheader.h>
+#include <win32pe/optionalheader.h>
 
 // Extremely simple PE file
 const unsigned char Sample[] = {
@@ -74,5 +75,10 @@ BOOST_AUTO_TEST_CASE(test_load)
     BOOST_TEST(file.load(stringstream));
     BOOST_TEST(file.fileHeader().machine() == win32pe::FileHeader::i386);
     BOOST_TEST(file.fileHeader().timeDateStamp() == 1162198621);
-    BOOST_TEST(file.fileHeader().characteristics() == 0);
+    BOOST_TEST(file.fileHeader().characteristics() ==
+        win32pe::FileHeader::RelocsStripped |
+        win32pe::FileHeader::ExecutableImage |
+        win32pe::FileHeader::ThirtyTwoBitMachine
+    );
+    BOOST_TEST(file.optionalHeader().magic() == win32pe::OptionalHeader::Win32);
 }

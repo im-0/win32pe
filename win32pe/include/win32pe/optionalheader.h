@@ -52,11 +52,13 @@ public:
 
     OptionalHeader &operator=(const OptionalHeader &other);
 
-    uint16_t width() const;
+    uint16_t magic() const;
 
 private:
 
     OptionalHeaderPrivate *const d;
+
+    friend class FilePrivate;
 };
 
 }

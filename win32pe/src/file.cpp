@@ -30,6 +30,7 @@
 
 #include "file_p.h"
 #include "fileheader_p.h"
+#include "optionalheader_p.h"
 
 using namespace win32pe;
 
@@ -93,6 +94,12 @@ bool FilePrivate::readPEHeaders(std::istream &istream)
     // Read the file header
     if (!mFileHeader.d->read(istream)) {
         mErrorString = "unable to read file header";
+        return false;
+    }
+
+    // Read the optional header
+    if (!mOptionalHeader.d->read(istream)) {
+        mErrorString = "unable to read optional header";
         return false;
     }
 
