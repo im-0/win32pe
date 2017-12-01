@@ -61,7 +61,7 @@ OptionalHeaderPrivate::OptionalHeaderPrivate()
       mSizeOfHeapCommit(0),
       mLoaderFlags(0),
       mNumberOfRvaAndSizes(0),
-      mDataDirectory{0}
+      mDataDirectory{}
 {
 }
 
@@ -97,7 +97,7 @@ bool OptionalHeaderPrivate::read(std::istream &istream)
     boost::endian::little_to_native_inplace(mSubsystem);
     boost::endian::little_to_native_inplace(mDllCharacteristics);
 
-    auto size = mMagic == OptionalHeader::Win32 ? sizeof(uint32_t) : sizeof(uint64_t);
+    std::streamsize size = mMagic == OptionalHeader::Win32 ? sizeof(uint32_t) : sizeof(uint64_t);
     if (!istream.read(reinterpret_cast<char*>(&mSizeOfStackReserve), size) ||
             !istream.read(reinterpret_cast<char*>(&mSizeOfStackCommit), size) ||
             !istream.read(reinterpret_cast<char*>(&mSizeOfHeapReserve), size) ||
@@ -150,6 +150,7 @@ OptionalHeader::~OptionalHeader()
 OptionalHeader &OptionalHeader::operator=(const OptionalHeader &other)
 {
     *d = *other.d;
+    return *this;
 }
 
 uint16_t OptionalHeader::magic() const
@@ -175,4 +176,9 @@ uint16_t OptionalHeader::subsystem() const
 uint16_t OptionalHeader::dllCharacteristics() const
 {
     return d->mDllCharacteristics;
+}
+
+const OptionalHeader::ImageDataDirectory (&OptionalHeader::dataDirectory() const)[OptionalHeader::DataDirectoryCount]
+{
+    return d->mDataDirectory;
 }

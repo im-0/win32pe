@@ -63,6 +63,26 @@ public:
         TerminalServerAware = 0x8000
     };
 
+    enum {
+        ExportTable,
+        ImportTable,
+        ResourceTable,
+        ExceptionTable,
+        CertificateTable,
+        BaseRelocationTable,
+        DebuggingInformation,
+        ArchitectureSpecificData,
+        GlobalPointerRegister,
+        ThreadLocalStorageTable,
+        LoadConfigurationTable,
+        BoundImportTable,
+        ImportAddressTable,
+        DelayImportDescriptor,
+        CLRHeader,
+
+        DataDirectoryCount = 16
+    };
+
     struct ImageDataDirectory
     {
         uint32_t virtualAddress;
@@ -80,6 +100,8 @@ public:
     uint16_t minorOperatingSystemVersion() const;
     uint16_t subsystem() const;
     uint16_t dllCharacteristics() const;
+
+    const ImageDataDirectory (&dataDirectory() const)[DataDirectoryCount];
 
 private:
 
