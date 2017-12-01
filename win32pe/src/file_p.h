@@ -27,9 +27,11 @@
 
 #include <istream>
 #include <string>
+#include <vector>
 
 #include <win32pe/fileheader.h>
 #include <win32pe/optionalheader.h>
+#include <win32pe/sectionheader.h>
 
 namespace win32pe
 {
@@ -40,12 +42,15 @@ public:
 
     bool readDOSHeader(std::istream &istream);
     bool readPEHeaders(std::istream &istream);
+    bool readSections(std::istream &istream);
 
     std::string mErrorString;
 
     std::string mDOSHeader;
     FileHeader mFileHeader;
     OptionalHeader mOptionalHeader;
+
+    std::vector<SectionHeader> mSectionHeaders;
 };
 
 }

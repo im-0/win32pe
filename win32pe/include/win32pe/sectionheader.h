@@ -52,6 +52,8 @@ public:
 private:
 
     SectionHeaderPrivate *const d;
+
+    friend class FilePrivate;
 };
 
 }

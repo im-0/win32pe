@@ -31,6 +31,7 @@
 #include "file_p.h"
 #include "fileheader_p.h"
 #include "optionalheader_p.h"
+#include "sectionheader_p.h"
 
 using namespace win32pe;
 
@@ -106,6 +107,19 @@ bool FilePrivate::readPEHeaders(std::istream &istream)
     return true;
 }
 
+bool FilePrivate::readSections(std::istream &istream)
+{
+    mSectionHeaders.resize(mFileHeader.d->mNumberOfSections);
+
+    for (auto it = mSectionHeaders.begin(); it != mSectionHeaders.end(); ++it) {
+        if (!(*it).d->read(istream)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 File::File()
     : d(new FilePrivate)
 {
@@ -129,7 +143,8 @@ File &File::operator=(const File &other)
 bool File::load(std::istream &istream)
 {
     return d->readDOSHeader(istream) &&
-           d->readPEHeaders(istream);
+           d->readPEHeaders(istream) &&
+           d->readSections(istream);
 }
 
 bool File::load(const std::string &filename)
