@@ -5,7 +5,7 @@ language: cpp
 addons:
   apt:
     sources:
-    - ppa:kzemek/boost
+    - sourceline: 'ppa:kzemek/boost'
     packages:
     - boost1.58
 
