@@ -4,8 +4,10 @@ language: cpp
 
 addons:
   apt:
+    sources:
+    - debian-sid
     packages:
-    - libboost1.55-dev
+    - boost1.62
 
 script:
   - cmake .
