@@ -3,6 +3,7 @@ file(GLOB HEADERS include/win32pe/*.h)
 set(SRC
     src/file.cpp
     src/fileheader.cpp
+    src/importtable.cpp
     src/optionalheader.cpp
     src/sectionheader.cpp
 )
