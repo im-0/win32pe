@@ -46,7 +46,7 @@ SectionHeaderPrivate::SectionHeaderPrivate()
 
 bool SectionHeaderPrivate::read(std::istream &istream)
 {
-    if (!istream.read(reinterpret_cast<char*>(this), sizeof(this))) {
+    if (!istream.read(reinterpret_cast<char*>(this), sizeof(*this))) {
         return false;
     }
 
