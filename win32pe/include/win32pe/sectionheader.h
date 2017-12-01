@@ -33,7 +33,7 @@ namespace win32pe
 class WIN32PE_EXPORT SectionHeaderPrivate;
 
 /**
- * @brief The SectionHeader class
+ * @brief PE section header
  */
 class WIN32PE_EXPORT SectionHeader
 {
