@@ -1,8 +1,4 @@
-set(HEADERS
-    include/win32pe/file.h
-    include/win32pe/fileheader.h
-    include/win32pe/optionalheader.h
-)
+file(GLOB HEADERS include/win32pe/*.h)
 
 set(SRC
     src/file.cpp
