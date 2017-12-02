@@ -131,7 +131,5 @@ bool Section::containsRVA(uint32_t rva) const
 
 uint32_t Section::rvaToOffset(uint32_t rva) const
 {
-    // TODO: confirm why we are subtracting mPointerToRawData
-
-    return rva - (d->mVirtualAddress - d->mPointerToRawData);
+    return rva - d->mVirtualAddress;
 }
