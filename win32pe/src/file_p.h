@@ -28,7 +28,9 @@
 #include <istream>
 #include <vector>
 
+#include <win32pe/file.h>
 #include <win32pe/fileheader.h>
+#include <win32pe/importtable.h>
 #include <win32pe/optionalheader.h>
 
 namespace win32pe
@@ -40,9 +42,15 @@ class FilePrivate
 {
 public:
 
+    FilePrivate(File *file);
+
+    FilePrivate &operator=(const FilePrivate &other);
+
     bool readDOSHeader(std::istream &istream);
     bool readPEHeaders(std::istream &istream);
     bool readSections(std::istream &istream);
+
+    File *const q;
 
     std::string mErrorString;
 
@@ -51,6 +59,8 @@ public:
     OptionalHeader mOptionalHeader;
 
     std::vector<Section> mSections;
+
+    ImportTable mImportTable;
 };
 
 }

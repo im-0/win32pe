@@ -40,6 +40,25 @@ const int DOSHeaderSize = 0x40;
 const int PEOffsetOffset = 0x3c;
 const int PESignature = 0x4550;
 
+FilePrivate::FilePrivate(File *file)
+    : q(file)
+{
+}
+
+FilePrivate &FilePrivate::operator=(const FilePrivate &other)
+{
+    // TODO: it would be nice if this was automated
+
+    mErrorString = other.mErrorString;
+    mDOSHeader = other.mDOSHeader;
+    mFileHeader = other.mFileHeader;
+    mOptionalHeader = other.mOptionalHeader;
+    mSections = other.mSections;
+    mImportTable = other.mImportTable;
+
+    return *this;
+}
+
 bool FilePrivate::readDOSHeader(std::istream &istream)
 {
     // The DOS header is 64 bytes and contains the signature and offset to the
@@ -114,21 +133,32 @@ bool FilePrivate::readSections(std::istream &istream)
     mSections.resize(mFileHeader.d->mNumberOfSections);
     for (auto it = mSections.begin(); it != mSections.end(); ++it) {
         if (!(*it).d->read(istream)) {
+            mErrorString = "unable to read sections";
             return false;
         }
+    }
+
+    // Read the import table if present
+    const Section *section = q->rvaToSection(
+        mOptionalHeader.dataDirectory()[OptionalHeader::ImportTable].virtualAddress
+    );
+    if (section && !mImportTable.load(section->data())) {
+        mErrorString = "unable to read import table";
+        return false;
     }
 
     return true;
 }
 
 File::File()
-    : d(new FilePrivate)
+    : d(new FilePrivate(this))
 {
 }
 
 File::File(const File &other)
-    : d(new FilePrivate(*other.d))
+    : d(new FilePrivate(this))
 {
+    *this = other;
 }
 
 File::~File()
