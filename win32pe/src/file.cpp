@@ -223,6 +223,9 @@ std::string File::string(uint32_t rva) const
 
     if (section) {
         for (uint32_t i = section->rvaToOffset(rva); i < section->data().size(); ++i) {
+            if (section->data()[i] == '\0') {
+                break;
+            }
             value.append(1, section->data()[i]);
         }
     }
