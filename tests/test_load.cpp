@@ -91,4 +91,5 @@ BOOST_AUTO_TEST_CASE(test_load)
 
     BOOST_TEST(file.sections().size() == 1);
     BOOST_TEST(file.sections().at(0).name() == ".text");
+    BOOST_TEST(file.sections().at(0).data().size() == 4);
 }
