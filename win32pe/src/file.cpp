@@ -27,12 +27,12 @@
 #include <boost/endian/conversion.hpp>
 
 #include <win32pe/file.h>
-#include <win32pe/sectionheader.h>
+#include <win32pe/section.h>
 
 #include "file_p.h"
 #include "fileheader_p.h"
 #include "optionalheader_p.h"
-#include "sectionheader_p.h"
+#include "section_p.h"
 
 using namespace win32pe;
 
@@ -110,9 +110,9 @@ bool FilePrivate::readPEHeaders(std::istream &istream)
 
 bool FilePrivate::readSections(std::istream &istream)
 {
-    mSectionHeaders.resize(mFileHeader.d->mNumberOfSections);
-
-    for (auto it = mSectionHeaders.begin(); it != mSectionHeaders.end(); ++it) {
+    // Read the sections
+    mSections.resize(mFileHeader.d->mNumberOfSections);
+    for (auto it = mSections.begin(); it != mSections.end(); ++it) {
         if (!(*it).d->read(istream)) {
             return false;
         }
@@ -170,9 +170,9 @@ const OptionalHeader &File::optionalHeader() const
     return d->mOptionalHeader;
 }
 
-const std::vector<SectionHeader> &File::sectionHeaders() const
+const std::vector<Section> &File::sections() const
 {
-    return d->mSectionHeaders;
+    return d->mSections;
 }
 
 std::string File::errorString() const

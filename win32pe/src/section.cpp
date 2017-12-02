@@ -26,13 +26,13 @@
 
 #include <boost/endian/conversion.hpp>
 
-#include <win32pe/sectionheader.h>
+#include <win32pe/section.h>
 
-#include "sectionheader_p.h"
+#include "section_p.h"
 
 using namespace win32pe;
 
-SectionHeaderPrivate::SectionHeaderPrivate()
+SectionPrivate::SectionPrivate()
     : mName{0},
       mPhysicalAddressVirtualSize(0),
       mVirtualAddress(0),
@@ -46,9 +46,12 @@ SectionHeaderPrivate::SectionHeaderPrivate()
 {
 }
 
-bool SectionHeaderPrivate::read(std::istream &istream)
+bool SectionPrivate::read(std::istream &istream)
 {
-    if (!istream.read(reinterpret_cast<char*>(this), sizeof(*this))) {
+    if (!istream.read(
+            mName,
+            reinterpret_cast<char*>(&mData) - mName
+        )) {
         return false;
     }
 
@@ -62,31 +65,49 @@ bool SectionHeaderPrivate::read(std::istream &istream)
     boost::endian::little_to_native_inplace(mNumberOfLinenumbers);
     boost::endian::little_to_native_inplace(mCharacteristics);
 
-    return true;
+    // Quit early if the data is uninitialized
+    if (!mSizeOfRawData) {
+        return true;
+    }
+
+    // Go to the location in the file containing the section's data
+    auto pos = istream.tellg();
+    if (!istream.seekg(mPointerToRawData)) {
+        return false;
+    }
+
+    // Read the data for the section
+    mData.resize(mSizeOfRawData);
+    if (!istream.read(&mData[0], mSizeOfRawData)) {
+        return false;
+    }
+
+    // Seek back to the original location in the file
+    return static_cast<bool>(istream.seekg(pos));
 }
 
-SectionHeader::SectionHeader()
-    : d(new SectionHeaderPrivate)
+Section::Section()
+    : d(new SectionPrivate)
 {
 }
 
-SectionHeader::SectionHeader(const SectionHeader &other)
-    : d(new SectionHeaderPrivate(*other.d))
+Section::Section(const Section &other)
+    : d(new SectionPrivate(*other.d))
 {
 }
 
-SectionHeader::~SectionHeader()
+Section::~Section()
 {
     delete d;
 }
 
-SectionHeader &SectionHeader::operator=(const SectionHeader &other)
+Section &Section::operator=(const Section &other)
 {
     *d = *other.d;
     return *this;
 }
 
-std::string SectionHeader::name() const
+std::string Section::name() const
 {
     // If the final character is NULL, then strlen can be used to determine the
     // length; otherwise, assume that the string comprises the entire array
@@ -95,4 +116,9 @@ std::string SectionHeader::name() const
         d->mName,
         d->mName[SECTION_NAME_SIZE - 1] ? SECTION_NAME_SIZE : strlen(d->mName)
     );
+}
+
+std::string Section::data() const
+{
+    return d->mData;
 }

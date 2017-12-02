@@ -26,7 +26,6 @@
 #define WIN32PE_FILE_P_H
 
 #include <istream>
-#include <string>
 #include <vector>
 
 #include <win32pe/fileheader.h>
@@ -35,7 +34,7 @@
 namespace win32pe
 {
 
-class SectionHeader;
+class Section;
 
 class FilePrivate
 {
@@ -51,7 +50,7 @@ public:
     FileHeader mFileHeader;
     OptionalHeader mOptionalHeader;
 
-    std::vector<SectionHeader> mSectionHeaders;
+    std::vector<Section> mSections;
 };
 
 }

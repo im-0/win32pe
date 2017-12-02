@@ -22,40 +22,41 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef WIN32PE_SECTIONHEADER_H
-#define WIN32PE_SECTIONHEADER_H
+#ifndef WIN32PE_SECTION_P_H
+#define WIN32PE_SECTION_P_H
 
+#include <cstdint>
+#include <istream>
 #include <string>
 
-#include <win32pe/win32pe.h>
+#define SECTION_NAME_SIZE 8
 
 namespace win32pe
 {
 
-class WIN32PE_EXPORT SectionHeaderPrivate;
-
-/**
- * @brief PE section header
- */
-class WIN32PE_EXPORT SectionHeader
+class SectionPrivate
 {
 public:
 
-    SectionHeader();
-    SectionHeader(const SectionHeader &other);
-    virtual ~SectionHeader();
+    SectionPrivate();
 
-    SectionHeader &operator=(const SectionHeader &other);
+    bool read(std::istream &istream);
 
-    std::string name() const;
+    char mName[SECTION_NAME_SIZE];
 
-private:
+    uint32_t mPhysicalAddressVirtualSize;
+    uint32_t mVirtualAddress;
+    uint32_t mSizeOfRawData;
+    uint32_t mPointerToRawData;
+    uint32_t mPointerToRelocations;
+    uint32_t mPointerToLinenumbers;
+    uint16_t mNumberOfRelocations;
+    uint16_t mNumberOfLinenumbers;
+    uint32_t mCharacteristics;
 
-    SectionHeaderPrivate *const d;
-
-    friend class FilePrivate;
+    std::string mData;
 };
 
 }
 
-#endif // WIN32PE_SECTIONHEADER_H
+#endif // WIN32PE_SECTION_P_H

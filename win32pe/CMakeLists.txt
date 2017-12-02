@@ -5,7 +5,7 @@ set(SRC
     src/fileheader.cpp
     src/importtable.cpp
     src/optionalheader.cpp
-    src/sectionheader.cpp
+    src/section.cpp
 )
 
 add_library(win32pe SHARED ${HEADERS} ${SRC})

@@ -36,7 +36,7 @@ namespace win32pe
 
 class FileHeader;
 class OptionalHeader;
-class SectionHeader;
+class Section;
 
 class WIN32PE_EXPORT FilePrivate;
 
@@ -80,10 +80,10 @@ public:
     const OptionalHeader &optionalHeader() const;
 
     /**
-     * @brief Access the PE file's section headers
-     * @return reference to a vector containing the section headers
+     * @brief Access the PE file's sections
+     * @return reference to a vector containing the sections
      */
-    const std::vector<SectionHeader> &sectionHeaders() const;
+    const std::vector<Section> &sections() const;
 
     /**
      * @brief Retrieve a description of the last error

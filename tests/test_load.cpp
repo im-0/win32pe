@@ -31,7 +31,7 @@
 #include <win32pe/file.h>
 #include <win32pe/fileheader.h>
 #include <win32pe/optionalheader.h>
-#include <win32pe/sectionheader.h>
+#include <win32pe/section.h>
 
 // Extremely simple PE file
 const unsigned char Sample[] = {
@@ -89,6 +89,6 @@ BOOST_AUTO_TEST_CASE(test_load)
     BOOST_TEST(file.optionalHeader().subsystem() == win32pe::OptionalHeader::GUI);
     BOOST_TEST(file.optionalHeader().dllCharacteristics() == win32pe::OptionalHeader::NoSEH);
 
-    BOOST_TEST(file.sectionHeaders().size() == 1);
-    BOOST_TEST(file.sectionHeaders().at(0).name() == ".text");
+    BOOST_TEST(file.sections().size() == 1);
+    BOOST_TEST(file.sections().at(0).name() == ".text");
 }
