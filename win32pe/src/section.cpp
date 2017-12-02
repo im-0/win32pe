@@ -118,7 +118,20 @@ std::string Section::name() const
     );
 }
 
-std::string Section::data() const
+const std::string &Section::data() const
 {
     return d->mData;
+}
+
+bool Section::containsRVA(uint32_t rva) const
+{
+    return d->mVirtualAddress <= rva &&
+        rva < d->mVirtualAddress + d->mPhysicalAddressVirtualSize;
+}
+
+uint32_t Section::rvaToOffset(uint32_t rva) const
+{
+    // TODO: confirm why we are subtracting mPointerToRawData
+
+    return rva - (d->mVirtualAddress - d->mPointerToRawData);
 }

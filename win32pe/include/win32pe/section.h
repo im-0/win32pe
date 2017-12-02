@@ -48,7 +48,23 @@ public:
     Section &operator=(const Section &other);
 
     std::string name() const;
-    std::string data() const;
+    const std::string &data() const;
+
+    /**
+     * @brief Determines if the section contains an RVA
+     * @param rva relative virtual address
+     * @return true if the section contains the RVA
+     */
+    bool containsRVA(uint32_t rva) const;
+
+    /**
+     * @brief Convert an RVA to an offset into the section data
+     * @param rva relative virtual address
+     * @return offset
+     *
+     * The offset is only valid if containsRVA() returns true.
+     */
+    uint32_t rvaToOffset(uint32_t rva) const;
 
 private:
 
