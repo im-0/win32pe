@@ -38,10 +38,12 @@
 
 BOOST_AUTO_TEST_CASE(test_load)
 {
+    // Confirm that the image can be loaded
     win32pe::File file;
     std::stringstream stringstream(std::string(gSample, gSampleSize));
     BOOST_TEST(file.load(stringstream));
 
+    // Test the file header
     BOOST_TEST(file.fileHeader().machine() == win32pe::FileHeader::amd64);
     BOOST_TEST(file.fileHeader().timeDateStamp() == 1512189454);
     BOOST_TEST(file.fileHeader().characteristics() ==
@@ -50,13 +52,20 @@ BOOST_AUTO_TEST_CASE(test_load)
         win32pe::FileHeader::ThirtyTwoBitMachine
     );
 
+    // Test the optional header
     BOOST_TEST(file.optionalHeader().magic() == win32pe::OptionalHeader::Win64);
     BOOST_TEST(file.optionalHeader().majorOperatingSystemVersion() == 4);
     BOOST_TEST(file.optionalHeader().minorOperatingSystemVersion() == 0);
     BOOST_TEST(file.optionalHeader().subsystem() == win32pe::OptionalHeader::CUI);
     BOOST_TEST(file.optionalHeader().dllCharacteristics() == 0);
 
+    // Ensure there are three sections
     BOOST_TEST(file.sections().size() == 3);
+
+    // Test the .text (code) section
     BOOST_TEST(file.sections().at(0).name() == ".text");
     BOOST_TEST(file.sections().at(0).data().size() == 512);
+
+    // Test the .rdata section
+    BOOST_TEST(file.sections().at(1).name() == ".rdata");
 }

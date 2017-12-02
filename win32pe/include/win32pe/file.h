@@ -86,6 +86,13 @@ public:
     const std::vector<Section> &sections() const;
 
     /**
+     * @brief Access a string value at an RVA
+     * @param rva relative virtual address
+     * @return value or empty string
+     */
+    std::string string(uint32_t rva) const;
+
+    /**
      * @brief Retrieve a description of the last error
      * @return description or empty string if no error has occurred
      */
