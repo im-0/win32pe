@@ -30,8 +30,6 @@
 
 #include <win32pe/optionalheader.h>
 
-#define DATA_DIRECTORY_SIZE 16
-
 namespace win32pe
 {
 
@@ -89,7 +87,7 @@ public:
     uint32_t mLoaderFlags;
     uint32_t mNumberOfRvaAndSizes;
 
-    OptionalHeader::ImageDataDirectory mDataDirectory[DATA_DIRECTORY_SIZE];
+    OptionalHeader::ImageDataDirectory mDataDirectory[OptionalHeader::DataDirectoryCount];
 };
 
 }
