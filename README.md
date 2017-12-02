@@ -1,6 +1,7 @@
 ## win32pe
 
 [![Build Status](https://travis-ci.org/nathan-osman/win32pe.svg?branch=master)](https://travis-ci.org/nathan-osman/win32pe)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/MIT)
 
 This library simplifies the task of working with PE files.
 
