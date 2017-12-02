@@ -87,7 +87,7 @@ public:
     uint32_t mLoaderFlags;
     uint32_t mNumberOfRvaAndSizes;
 
-    OptionalHeader::ImageDataDirectory mDataDirectory[OptionalHeader::DataDirectoryCount];
+    OptionalHeader::DataDirectoryItem mDataDirectory[OptionalHeader::DataDirectoryCount];
 };
 
 }

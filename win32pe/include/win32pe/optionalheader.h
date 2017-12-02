@@ -83,7 +83,7 @@ public:
         DataDirectoryCount = 16
     };
 
-    struct ImageDataDirectory
+    struct DataDirectoryItem
     {
         uint32_t virtualAddress;
         uint32_t size;
@@ -101,7 +101,7 @@ public:
     uint16_t subsystem() const;
     uint16_t dllCharacteristics() const;
 
-    const ImageDataDirectory (&dataDirectory() const)[DataDirectoryCount];
+    const DataDirectoryItem (&dataDirectory() const)[DataDirectoryCount];
 
 private:
 

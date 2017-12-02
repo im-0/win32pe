@@ -178,7 +178,7 @@ uint16_t OptionalHeader::dllCharacteristics() const
     return d->mDllCharacteristics;
 }
 
-const OptionalHeader::ImageDataDirectory (&OptionalHeader::dataDirectory() const)[OptionalHeader::DataDirectoryCount]
+const OptionalHeader::DataDirectoryItem (&OptionalHeader::dataDirectory() const)[OptionalHeader::DataDirectoryCount]
 {
     return d->mDataDirectory;
 }

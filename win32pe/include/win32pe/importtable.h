@@ -25,6 +25,10 @@
 #ifndef WIN32PE_IMPORTTABLE_H
 #define WIN32PE_IMPORTTABLE_H
 
+#include <cstdint>
+#include <string>
+#include <vector>
+
 #include <win32pe/win32pe.h>
 
 namespace win32pe
@@ -39,11 +43,33 @@ class WIN32PE_EXPORT ImportTable
 {
 public:
 
+    struct Item
+    {
+        uint32_t characteristics;
+        uint32_t timeDateStamp;
+        uint32_t forwarderChain;
+        uint32_t name;
+        uint32_t firstThunk;
+    };
+
     ImportTable();
     ImportTable(const ImportTable &other);
     virtual ~ImportTable();
 
     ImportTable &operator=(const ImportTable &other);
+
+    /**
+     * @brief Load an import table from a string
+     * @param data raw data
+     * @return true if the table was loaded
+     */
+    void load(const std::string &data);
+
+    /**
+     * @brief Access the items in the import table
+     * @return reference to a vector containing the items
+     */
+    const std::vector<Item> &items() const;
 
 private:
 

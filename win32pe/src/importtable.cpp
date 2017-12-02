@@ -22,6 +22,8 @@
  * IN THE SOFTWARE.
  */
 
+#include <cstring>
+
 #include <win32pe/importtable.h>
 
 #include "importtable_p.h"
@@ -51,4 +53,19 @@ ImportTable &ImportTable::operator=(const ImportTable &other)
 {
     *d = *other.d;
     return *this;
+}
+
+void ImportTable::load(const std::string &data)
+{
+    // Allocate space for the items in the table
+    auto numItems = (data.size() / sizeof(Item));
+    d->mItems.resize(numItems);
+
+    // Copy the items to the vector
+    memcpy(&d->mItems[0], &data[0], numItems * sizeof(Item));
+}
+
+const std::vector<ImportTable::Item> &ImportTable::items() const
+{
+    return d->mItems;
 }
