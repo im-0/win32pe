@@ -205,6 +205,11 @@ const std::vector<Section> &File::sections() const
     return d->mSections;
 }
 
+const ImportTable &File::importTable() const
+{
+    return d->mImportTable;
+}
+
 const Section *File::rvaToSection(uint32_t rva) const
 {
     for (auto it = d->mSections.begin(); it != d->mSections.end(); ++it) {

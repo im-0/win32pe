@@ -35,6 +35,7 @@ namespace win32pe
 {
 
 class FileHeader;
+class ImportTable;
 class OptionalHeader;
 class Section;
 
@@ -84,6 +85,12 @@ public:
      * @return reference to a vector containing the sections
      */
     const std::vector<Section> &sections() const;
+
+    /**
+     * @brief Access the PE file's import table
+     * @return reference to the import table
+     */
+    const ImportTable &importTable() const;
 
     /**
      * @brief Convert an RVA to the section containing it

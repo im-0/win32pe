@@ -31,6 +31,7 @@
 
 #include <win32pe/file.h>
 #include <win32pe/fileheader.h>
+#include <win32pe/importtable.h>
 #include <win32pe/optionalheader.h>
 #include <win32pe/section.h>
 
@@ -66,6 +67,7 @@ BOOST_AUTO_TEST_CASE(test_load)
     BOOST_TEST(file.sections().at(0).name() == ".text");
     BOOST_TEST(file.sections().at(0).data().size() == 512);
 
-    // Test the .rdata section
-    BOOST_TEST(file.sections().at(1).name() == ".rdata");
+    // Test the import table
+    BOOST_TEST(file.importTable().items().size() == 1);
+    BOOST_TEST(file.string(file.importTable().items().at(0).name) == "USER32.dll");
 }
