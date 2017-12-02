@@ -3,7 +3,7 @@ set(TESTS
 )
 
 foreach(_test ${TESTS})
-    add_executable(${_test} ${_test}.cpp)
+    add_executable(${_test} ${_test}.cpp sample.cpp)
     set_target_properties(${_test} PROPERTIES
         CXX_STANDARD          11
         CXX_STANDARD_REQUIRED ON
