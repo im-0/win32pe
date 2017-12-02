@@ -26,8 +26,25 @@ target_include_directories(win32pe PUBLIC
 )
 
 install(TARGETS win32pe
+    EXPORT        win32pe-export
     RUNTIME       DESTINATION bin
     LIBRARY       DESTINATION lib
     ARCHIVE       DESTINATION lib
     PUBLIC_HEADER DESTINATION include/win32pe
+)
+
+install(EXPORT win32pe-export
+    FILE        win32peConfig.cmake
+    DESTINATION lib/cmake/win32pe
+)
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/win32peConfigVersion.cmake"
+    VERSION       ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/win32peConfigVersion.cmake"
+    DESTINATION lib/cmake/win32pe
 )
