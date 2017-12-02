@@ -55,14 +55,25 @@ ImportTable &ImportTable::operator=(const ImportTable &other)
     return *this;
 }
 
-void ImportTable::load(const std::string &data)
+bool ImportTable::load(const std::string &data)
 {
-    // Allocate space for the items in the table
-    auto numItems = (data.size() / sizeof(Item));
-    d->mItems.resize(numItems);
+    // Read Items until either one is found with all zeroes or the end of the
+    // data is reached (which is an error)
 
-    // Copy the items to the vector
-    memcpy(&d->mItems[0], &data[0], numItems * sizeof(Item));
+    for (size_t i = 0; i + sizeof(Item) <= data.size(); i += sizeof(Item)) {
+        Item item;
+        memcpy(&item, &data[0] + i, sizeof(Item));
+        if (!item.characteristics &&
+                !item.timeDateStamp &&
+                !item.forwarderChain &&
+                !item.name &&
+                !item.firstThunk) {
+            return true;
+        }
+        d->mItems.push_back(item);
+    }
+
+    return false;
 }
 
 const std::vector<ImportTable::Item> &ImportTable::items() const

@@ -63,7 +63,7 @@ public:
      * @param data raw data
      * @return true if the table was loaded
      */
-    void load(const std::string &data);
+    bool load(const std::string &data);
 
     /**
      * @brief Access the items in the import table

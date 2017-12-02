@@ -25,6 +25,10 @@
 #ifndef WIN32PE_IMPORTTABLE_P_H
 #define WIN32PE_IMPORTTABLE_P_H
 
+#include <vector>
+
+#include <win32pe/importtable.h>
+
 namespace win32pe
 {
 
@@ -33,6 +37,8 @@ class ImportTablePrivate
 public:
 
     ImportTablePrivate();
+
+    std::vector<ImportTable::Item> mItems;
 };
 
 }
