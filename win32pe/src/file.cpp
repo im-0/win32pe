@@ -175,18 +175,28 @@ const std::vector<Section> &File::sections() const
     return d->mSections;
 }
 
-std::string File::string(uint32_t rva) const
+const Section *File::rvaToSection(uint32_t rva) const
 {
-    // TODO: this could be made more efficient
-
-    std::string value;
     for (auto it = d->mSections.begin(); it != d->mSections.end(); ++it) {
         if ((*it).containsRVA(rva)) {
-            for (uint32_t i = (*it).rvaToOffset(rva); i < (*it).data().size(); ++i) {
-                value.append(1, (*it).data()[i]);
-            }
+            return &(*it);
         }
     }
+
+    return nullptr;
+}
+
+std::string File::string(uint32_t rva) const
+{
+    const Section *section = rvaToSection(rva);
+    std::string value;
+
+    if (section) {
+        for (uint32_t i = section->rvaToOffset(rva); i < section->data().size(); ++i) {
+            value.append(1, section->data()[i]);
+        }
+    }
+
     return value;
 }
 

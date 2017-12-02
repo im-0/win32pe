@@ -86,6 +86,13 @@ public:
     const std::vector<Section> &sections() const;
 
     /**
+     * @brief Convert an RVA to the section containing it
+     * @param rva relative virtual address
+     * @return pointer to Section or nullptr
+     */
+    const Section *rvaToSection(uint32_t rva) const;
+
+    /**
      * @brief Access a string value at an RVA
      * @param rva relative virtual address
      * @return value or empty string
